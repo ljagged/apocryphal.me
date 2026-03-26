@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+const allPosts = (await getCollection('posts'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const allNotes = (await getCollection('notes'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const recentPosts = allPosts.slice(0, 5);
+const recentNotes = allNotes.slice(0, 3);
+
+// Render note content
+const renderedNotes = await Promise.all(
+  recentNotes.map(async (note) => {
+    const { Content } = await render(note);
+    return { ...note, Content };
+  })
+);
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-CA');
+}
+---
+
+<BaseLayout title="apocryphal.me">
+  <div class="home">
+    <div class="home-intro">
+      <p class="home-subtitle">Dispatches from outside the canon.</p>
+    </div>
+
+    {recentPosts.length > 0 && (
+      <section>
+        <h2 class="section-label">Posts</h2>
+        <ul class="post-list">
+          {recentPosts.map((post) => (
+            <li>
+              <span class="post-date mono">{formatDate(post.data.date)}</span>
+              <span class="post-title">
+                <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+              </span>
+              <p class="post-excerpt">{post.data.description}</p>
+            </li>
+          ))}
+        </ul>
+        {allPosts.length > 5 && (
+          <a href="/posts/" class="see-all">All posts →</a>
+        )}
+      </section>
+    )}
+
+    {renderedNotes.length > 0 && (
+      <section>
+        <h2 class="section-label">Notes</h2>
+        <ul class="note-list">
+          {renderedNotes.map(({ data, Content }) => (
+            <li>
+              <span class="note-date mono">{formatDate(data.date)}</span>
+              <div class="note-body">
+                {data.title && <strong>{data.title} </strong>}
+                <Content />
+              </div>
+            </li>
+          ))}
+        </ul>
+        {allNotes.length > 3 && (
+          <a href="/notes/" class="see-all">All notes →</a>
+        )}
+      </section>
+    )}
+
+    {recentPosts.length === 0 && recentNotes.length === 0 && (
+      <p class="muted">Nothing here yet. Soon.</p>
+    )}
+  </div>
+
+  <style>
+    .home-intro {
+      margin-bottom: 40px;
+    }
+
+    .home-subtitle {
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 1.1em;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xxs);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--text-faint);
+      margin-bottom: 20px;
+      margin-top: 40px;
+      font-weight: normal;
+    }
+
+    .post-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .post-list li {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .post-list li:last-child {
+      border-bottom: none;
+    }
+
+    .post-date {
+      font-size: var(--font-size-xs);
+      color: var(--text-faint);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .post-title {
+      font-size: 1.25em;
+      font-style: italic;
+    }
+
+    .post-title a {
+      border-bottom: none;
+    }
+
+    .post-title a:hover {
+      border-bottom: 1px solid var(--link-underline);
+    }
+
+    .post-excerpt {
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+      margin-top: 6px;
+      margin-bottom: 0;
+    }
+
+    .note-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .note-list li {
+      margin-bottom: 16px;
+      padding-left: 16px;
+      border-left: 2px solid var(--border);
+      font-size: var(--font-size-sm);
+    }
+
+    .note-date {
+      font-size: var(--font-size-xxs);
+      color: var(--text-faint);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .see-all {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+    }
+  </style>
+</BaseLayout>

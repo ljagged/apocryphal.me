@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = (await getCollection('posts'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-CA');
+}
+---
+
+<BaseLayout title="Posts" description="All posts on apocryphal.me">
+  <h1 class="page-title">Posts</h1>
+
+  {allPosts.length > 0 ? (
+    <ul class="post-list">
+      {allPosts.map((post) => (
+        <li>
+          <span class="post-date mono">{formatDate(post.data.date)}</span>
+          <span class="post-title">
+            <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+          </span>
+          <p class="post-excerpt">{post.data.description}</p>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p class="muted">Nothing here yet.</p>
+  )}
+
+  <style>
+    .page-title {
+      font-style: italic;
+      font-weight: normal;
+      margin-bottom: 32px;
+    }
+
+    .post-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .post-list li {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .post-list li:last-child {
+      border-bottom: none;
+    }
+
+    .post-date {
+      font-size: var(--font-size-xs);
+      color: var(--text-faint);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .post-title {
+      font-size: 1.25em;
+      font-style: italic;
+    }
+
+    .post-title a {
+      border-bottom: none;
+    }
+
+    .post-title a:hover {
+      border-bottom: 1px solid var(--link-underline);
+    }
+
+    .post-excerpt {
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+      margin-top: 6px;
+      margin-bottom: 0;
+    }
+  </style>
+</BaseLayout>

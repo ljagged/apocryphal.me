@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Search">
+  <h1 class="page-title">Search</h1>
+  <div id="search"></div>
+
+  <style>
+    .page-title {
+      font-style: italic;
+      font-weight: normal;
+      margin-bottom: 32px;
+    }
+  </style>
+
+  <!-- Pagefind UI loaded after build -->
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>
+    window.addEventListener('DOMContentLoaded', () => {
+      new PagefindUI({
+        element: '#search',
+        showSubResults: true,
+        showImages: false,
+      });
+    });
+  </script>
+
+  <style is:global>
+    /* Override Pagefind UI to match site aesthetic */
+    .pagefind-ui__search-input {
+      font-family: var(--font-body) !important;
+      font-size: var(--font-size-base) !important;
+      border: 1px solid var(--border) !important;
+      background: var(--bg) !important;
+      color: var(--text) !important;
+      border-radius: 4px !important;
+      padding: 10px 14px !important;
+    }
+
+    .pagefind-ui__result-link {
+      font-family: var(--font-body) !important;
+      color: var(--text) !important;
+    }
+
+    .pagefind-ui__result-excerpt {
+      font-family: var(--font-body) !important;
+      color: var(--text-muted) !important;
+    }
+
+    .pagefind-ui__button {
+      background: var(--bg-accent) !important;
+      color: var(--text) !important;
+    }
+  </style>
+</BaseLayout>

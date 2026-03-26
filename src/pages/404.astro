@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Not Found">
+  <div class="not-found">
+    <h1>404</h1>
+    <p>This text is apocryphal — it doesn't exist here.</p>
+    <p><a href="/">Return to the canon</a></p>
+  </div>
+
+  <style>
+    .not-found {
+      text-align: center;
+      padding: 80px 0;
+    }
+
+    .not-found h1 {
+      font-family: var(--font-mono);
+      font-size: 4em;
+      color: var(--text-faint);
+      font-weight: normal;
+    }
+
+    .not-found p {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+  </style>
+</BaseLayout>

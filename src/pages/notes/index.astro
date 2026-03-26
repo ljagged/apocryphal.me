@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+const allNotes = (await getCollection('notes'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const renderedNotes = await Promise.all(
+  allNotes.map(async (note) => {
+    const { Content } = await render(note);
+    return { ...note, Content };
+  })
+);
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-CA');
+}
+---
+
+<BaseLayout title="Notes" description="Short notes, links, and reactions.">
+  <h1 class="page-title">Notes</h1>
+
+  {renderedNotes.length > 0 ? (
+    <ul class="note-list">
+      {renderedNotes.map(({ data, Content }) => (
+        <li>
+          <span class="note-date mono">{formatDate(data.date)}</span>
+          <div class="note-body">
+            {data.title && <strong>{data.title} — </strong>}
+            <Content />
+          </div>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p class="muted">Nothing here yet.</p>
+  )}
+
+  <style>
+    .page-title {
+      font-style: italic;
+      font-weight: normal;
+      margin-bottom: 32px;
+    }
+
+    .note-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .note-list li {
+      margin-bottom: 24px;
+      padding-left: 20px;
+      border-left: 2px solid var(--border);
+    }
+
+    .note-date {
+      font-size: var(--font-size-xxs);
+      color: var(--text-faint);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .note-body {
+      font-size: var(--font-size-base);
+    }
+
+    .note-body :global(p:last-child) {
+      margin-bottom: 0;
+    }
+  </style>
+</BaseLayout>

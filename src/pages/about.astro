@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About">
+  <article class="about">
+    <h1 class="page-title">About</h1>
+
+    <p>
+      <em>apocryphal</em> — texts of disputed origin, outside the accepted canon.
+    </p>
+
+    <p>
+      This is the personal blog of Alex, founder of
+      <a href="https://divergentflow.io">DivergentFlow, PBC</a>.
+      I write about technology, consciousness, history, music, and the spaces
+      between disciplines where the interesting things happen.
+    </p>
+
+    <p>
+      I was a techno-optimist in the early 90s. I was big into Scheme and PL theory,
+      a fan of Timothy C. May and the cypherpunks, and had a respectable geek code.
+      In some ways, the work I'm doing now is a way of getting back to the days
+      before surveillance capitalism and the techno-barons ruined everything.
+    </p>
+
+    <p>
+      This site has no tracking, no cookies, and no surveillance.
+      There is an <a href="/feed.xml">RSS feed</a>.
+    </p>
+  </article>
+
+  <style>
+    .page-title {
+      font-style: italic;
+      font-weight: normal;
+      margin-bottom: 32px;
+    }
+
+    .about {
+      max-width: var(--content-width);
+    }
+  </style>
+</BaseLayout>
