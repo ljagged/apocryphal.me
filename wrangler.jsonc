@@ -6,11 +6,12 @@
   "assets": {
     "directory": "dist"
   },
-  "routes": [
-    { "pattern": "apocryphal.me/*", "zone_name": "apocryphal.me" },
-    { "pattern": "www.apocryphal.me/*", "zone_name": "apocryphal.me" }
-  ],
-  "workers_dev": false,
+  // Uncomment routes when domain DNS is pointed at Cloudflare:
+  // "routes": [
+  //   { "pattern": "apocryphal.me/*", "zone_name": "apocryphal.me" },
+  //   { "pattern": "www.apocryphal.me/*", "zone_name": "apocryphal.me" }
+  // ],
+  "workers_dev": true,
   "preview_urls": false,
   "observability": {
     "enabled": true
