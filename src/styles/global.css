@@ -204,3 +204,95 @@ em {
   letter-spacing: 3px;
   color: var(--text-faint);
 }
+
+/* --- Sidenotes --- */
+article {
+  counter-reset: sidenote-counter;
+}
+
+.sidenote-toggle {
+  font-size: 0.7em;
+  vertical-align: super;
+  color: var(--text-faint);
+  cursor: default;
+}
+
+.sidenote-number {
+  counter-increment: sidenote-counter;
+}
+
+.sidenote-number::after {
+  content: counter(sidenote-counter);
+}
+
+.sidenote {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.sidenote::before {
+  content: counter(sidenote-counter) ". ";
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--text-faint);
+}
+
+/* Wide screens: float into the right margin */
+@media (min-width: 960px) {
+  .sidenote {
+    float: right;
+    clear: right;
+    width: var(--sidenote-width);
+    margin-right: calc(-1 * (var(--sidenote-width) + var(--sidenote-gap)));
+    margin-bottom: 0.75em;
+    margin-top: 0.2em;
+    display: block;
+  }
+}
+
+/* Narrow screens: inline footnote */
+@media (max-width: 959px) {
+  .sidenote {
+    display: block;
+    margin: 0.5em 0 1em;
+    padding-left: 1em;
+    border-left: 2px solid var(--border);
+  }
+}
+
+/* --- Epigraphs --- */
+.epigraph {
+  margin-bottom: 2em;
+}
+
+.epigraph blockquote {
+  border-left: 2px solid var(--border);
+  padding-left: 20px;
+  font-style: italic;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.epigraph-attribution {
+  font-style: normal;
+  font-size: var(--font-size-xs);
+  margin-top: 6px;
+  color: var(--text-faint);
+}
+
+/* --- Pull Quotes --- */
+.pull-quote {
+  font-size: 1.25em;
+  font-style: italic;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 1em 0;
+  margin: 2em 0;
+  line-height: 1.5;
+}
+
+.pull-quote p {
+  margin-bottom: 0;
+}

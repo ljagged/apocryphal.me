@@ -18,11 +18,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
 
-    <title>{title === 'apocryphal' ? title : `${title} — apocryphal`}</title>
+    <title>{title === 'apocryphal.me' ? title : `${title} — apocryphal.me`}</title>
     <meta name="description" content={description} />
 
     <link rel="canonical" href={canonicalURL} />
-    <link rel="alternate" type="application/rss+xml" title="apocryphal" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="apocryphal.me" href="/feed.xml" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -48,7 +48,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <body>
     <div class={`site-container${wide ? ' site-container--wide' : ''}`}>
       <header class="site-header">
-        <a href="/" class="site-title">apocryphal</a>
+        <a href="/" class="site-title">apocryphal.me</a>
         <nav class="site-nav">
           <a href="/posts/">Posts</a>
           <a href="/notes/">Notes</a>
